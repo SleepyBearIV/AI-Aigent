@@ -4,7 +4,13 @@ A Python-based chat interface using FastAPI backend with LM Studio integration.
 
 ## Prerequisites
 
-### 1. LM Studio Installation and Setup
+### 1. Frontend Application
+This backend requires a separate frontend application to function:
+- Repository: [AI-Frontend](https://github.com/SleepyBearIV/AI-frontend)
+- Follow the installation instructions in the frontend repository
+- The frontend will connect to this backend at http://localhost:8000
+
+### 2. LM Studio Installation and Setup
 1. Download LM Studio:
    - Go to [https://lmstudio.ai/](https://lmstudio.ai/)
    - Download the appropriate version for your OS
