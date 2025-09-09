@@ -1,8 +1,9 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from chat_client import ChatClient, Message
+from .chat_client import ChatClient, Message
 from typing import List
+from .agent import Agent
 
 app = FastAPI()
 
@@ -22,6 +23,7 @@ class ChatResponse(BaseModel):
     response: str
 
 chat_client = ChatClient()
+agent = Agent(chat_client)
 
 @app.get("/heartbeat")
 async def heartbeat():
@@ -30,11 +32,8 @@ async def heartbeat():
 @app.post("/chat")
 async def chat(request: ChatRequest):
     try:
-        # Create a message object
-        message = Message("user", request.message)
-        
-        # Send to LM Studio through our ChatClient
-        response = await chat_client.chat([message])
+        # Send to LM Studio through our Agent
+        response = await agent.chat(request.message)
         
         return ChatResponse(response=response)
     except Exception as e:
@@ -43,4 +42,3 @@ async def chat(request: ChatRequest):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-  
